@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Partners.WebApi", "Management.Partners.WebApi\Management.Partners.WebApi.csproj", "{F081791C-13E0-4F98-B0AE-889849E08E93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Partners.WebApi", "Management.Partners.WebApi\Management.Partners.WebApi.csproj", "{F081791C-13E0-4F98-B0AE-889849E08E93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Partners.Infrastructure", "Management.Partners.Infrastructure\Management.Partners.Infrastructure.csproj", "{555B910E-C3DB-4979-9D66-FB28AD36B05B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Partners.Infrastructure", "Management.Partners.Infrastructure\Management.Partners.Infrastructure.csproj", "{555B910E-C3DB-4979-9D66-FB28AD36B05B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Partners.Domain", "Management.Partners.Domain\Management.Partners.Domain.csproj", "{7C9FDC3D-61E6-4539-90F4-42256D301549}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Partners.Domain", "Management.Partners.Domain\Management.Partners.Domain.csproj", "{7C9FDC3D-61E6-4539-90F4-42256D301549}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Partners.Application", "Management.Partners.Application\Management.Partners.Application.csproj", "{535600C5-7931-406F-B139-903F1A5CC6EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Partners.Application", "Management.Partners.Application\Management.Partners.Application.csproj", "{535600C5-7931-406F-B139-903F1A5CC6EE}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4A5AE42B-8D28-4AAA-8F86-BA61A694B83C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DBDA03FA-D392-430B-A503-0365E9992D33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Partners.Application.Tests", "..\Management.Partners.Application.Tests\Management.Partners.Application.Tests.csproj", "{CD0D78F8-48F6-4DE0-8583-C298324B4599}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Partners,Domain.Tests", "..\Management.Partners,Domain.Tests\Management.Partners,Domain.Tests.csproj", "{5C8DA4A1-CD07-4BE8-824A-F29C843E5924}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +41,25 @@ Global
 		{535600C5-7931-406F-B139-903F1A5CC6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{535600C5-7931-406F-B139-903F1A5CC6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{535600C5-7931-406F-B139-903F1A5CC6EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A5AE42B-8D28-4AAA-8F86-BA61A694B83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A5AE42B-8D28-4AAA-8F86-BA61A694B83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A5AE42B-8D28-4AAA-8F86-BA61A694B83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A5AE42B-8D28-4AAA-8F86-BA61A694B83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD0D78F8-48F6-4DE0-8583-C298324B4599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD0D78F8-48F6-4DE0-8583-C298324B4599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD0D78F8-48F6-4DE0-8583-C298324B4599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD0D78F8-48F6-4DE0-8583-C298324B4599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C8DA4A1-CD07-4BE8-824A-F29C843E5924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8DA4A1-CD07-4BE8-824A-F29C843E5924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8DA4A1-CD07-4BE8-824A-F29C843E5924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8DA4A1-CD07-4BE8-824A-F29C843E5924}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD0D78F8-48F6-4DE0-8583-C298324B4599} = {DBDA03FA-D392-430B-A503-0365E9992D33}
+		{5C8DA4A1-CD07-4BE8-824A-F29C843E5924} = {DBDA03FA-D392-430B-A503-0365E9992D33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F03B74AB-28A0-451A-88BD-239552D52984}

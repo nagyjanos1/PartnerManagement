@@ -1,8 +1,8 @@
 ﻿using Management.Partners.Domain.Base;
 
-namespace Management.Partners.Domain.Entities
+namespace Management.Partners.Domain.Partners
 {
-    public record Address : BaseEntity, IValueObject
+    public record Address : BaseModel, IValueObject
     {
         public string Name { get; init; }
 
@@ -12,7 +12,8 @@ namespace Management.Partners.Domain.Entities
 
         public string City { get; init; }
 
-        public string Address { get; init; }
+        public string AddressValue { get; init; }
 
+        public string PartnerId { get; set; }
     }
 }

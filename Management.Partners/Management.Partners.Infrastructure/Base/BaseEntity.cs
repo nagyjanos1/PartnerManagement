@@ -1,6 +1,6 @@
 ﻿namespace Management.Partners.Infrastructure.Base
 {
-    internal class BaseModel
+    internal class BaseEntity
     {
         public Guid Id { get; set; }
     }

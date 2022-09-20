@@ -1,8 +1,8 @@
 ﻿using Management.Partners.Infrastructure.Base;
 
-namespace Management.Partners.Infrastructure.Models
+namespace Management.Partners.Infrastructure.Entities
 {
-    internal class Address : BaseModel
+    internal class Address : BaseEntity
     {
         public string Name { get; set; }
 
@@ -13,5 +13,9 @@ namespace Management.Partners.Infrastructure.Models
         public string City { get; set; }
 
         public string AddressValue { get; set; }
+
+        public virtual Partner Partner { get; set; }
+
+        public Guid PartnerId { get; set; }
     }
 }

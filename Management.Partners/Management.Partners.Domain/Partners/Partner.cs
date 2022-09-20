@@ -1,27 +1,32 @@
 ﻿using Management.Partners.Domain.Base;
 using Management.Partners.Domain.Interfaces;
 
-namespace Management.Partners.Domain.Entities
+namespace Management.Partners.Domain.Partners
 {
-    public record Partner : BaseEntity, IAggregateRoot
+    public sealed record Partner : BaseModel, IAggregateRoot
     {
-        public string Name { get; private init; }
+        public string Name { get; init; }
 
-        public string Description { get; private init; }
+        public string Email { get; init; }
 
-        public List<Address> Addresses { get; private init; } = new List<Address>();
+        public string Phone { get; init; }
 
-        public Partner(string name, string description) 
+        public string Description { get; init; }
+
+        public List<Address> Addresses { get; init; }
+
+        public static Partner None => new()
         {
-            Id = Guid.NewGuid();
-            Name = name;
-            Description = description;
+            Name = string.Empty,
+            Phone = string.Empty,
+            Email = string.Empty,
+            Description = string.Empty,
+            Addresses = null
+        };
+
+        public Partner()
+        {
             Addresses = new List<Address>();
-        }
-
-        public Partner Update(string name, string desciption)
-        {
-            return new(name, desciption);
         }
 
         public void AddAddress(Address address)
@@ -36,7 +41,7 @@ namespace Management.Partners.Domain.Entities
             return Addresses.Remove(address);
         }
 
-        public bool RemoveAddress(Guid id)
+        public bool RemoveAddress(string id)
         {
             var address = Addresses.SingleOrDefault(a => a.Id == id);
             return address != null && Addresses.Remove(address);

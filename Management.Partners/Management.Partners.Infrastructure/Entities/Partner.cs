@@ -1,10 +1,14 @@
 ﻿using Management.Partners.Infrastructure.Base;
 
-namespace Management.Partners.Infrastructure.Models
+namespace Management.Partners.Infrastructure.Entities
 {
-    internal class Partner : BaseModel
-    { 
+    internal class Partner : BaseEntity
+    {
         public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
 
         public string Description { get; set; }
 

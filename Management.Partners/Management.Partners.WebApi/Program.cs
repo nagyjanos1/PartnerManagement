@@ -1,4 +1,7 @@
-using Microsoft.AspNetCore.Authentication;
+using System.Reflection;
+using Management.Partners.Application.Commands;
+using Management.Partners.WebApi.Configurations;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 
@@ -9,9 +12,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddMediatR(typeof(AddPartnerCommand).GetTypeInfo().Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.RegisterDependencies(builder.Configuration);
 
 var app = builder.Build();
 
