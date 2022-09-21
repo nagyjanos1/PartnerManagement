@@ -35,7 +35,7 @@ namespace Management.Partners.WebApi.Models.Address
         {
             return new UpdateAddressCommand
             {
-                Id = Id.ToString(),
+                Id = Id,
                 Name = Name,
                 CountryCode = CountryCode,
                 ZipCode = ZipCode,

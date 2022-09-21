@@ -8,14 +8,10 @@ namespace Management.Partners.Infrastructure.Configurations
         public InfrastuctureMapperConfig()
         {
             CreateMap<Partner, Entities.Partner>()
-                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => Guid.Parse(src.Id)))
-                .ReverseMap()
-                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id.ToString()));
+                .ReverseMap();
 
             CreateMap<Address, Entities.Address>()
-                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => Guid.Parse(src.Id)))
-                .ReverseMap()
-                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id.ToString()));
+                .ReverseMap();
         }
     }
 }

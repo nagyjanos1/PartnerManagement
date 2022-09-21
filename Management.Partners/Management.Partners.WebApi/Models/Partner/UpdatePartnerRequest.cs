@@ -26,7 +26,7 @@ namespace Management.Partners.WebApi.Models.Partner
         {
             return new()
             {
-                Id = Id.ToString(),
+                Id = Id,
                 Name = Name,
                 Email = Email,
                 Phone = Phone,

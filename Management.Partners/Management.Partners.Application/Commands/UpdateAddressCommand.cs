@@ -5,7 +5,7 @@ namespace Management.Partners.Application.Commands
 {
     public record UpdateAddressCommand : IRequest<Address>
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; init; }
 

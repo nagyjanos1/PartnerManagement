@@ -41,7 +41,7 @@ namespace Management.Partners.Domain.Partners
             return Addresses.Remove(address);
         }
 
-        public bool RemoveAddress(string id)
+        public bool RemoveAddress(Guid id)
         {
             var address = Addresses.SingleOrDefault(a => a.Id == id);
             return address != null && Addresses.Remove(address);

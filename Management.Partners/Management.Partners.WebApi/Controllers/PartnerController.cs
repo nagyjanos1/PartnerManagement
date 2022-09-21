@@ -36,7 +36,7 @@ namespace Management.Partners.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] string id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             var query = new GetPartnerByIdQuery(id);
 

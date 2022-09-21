@@ -21,7 +21,7 @@ namespace Management.Partners.Application.Commands
         {
             return new Address
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 Name = Name,
                 CountryCode = CountryCode,
                 ZipCode = ZipCode,

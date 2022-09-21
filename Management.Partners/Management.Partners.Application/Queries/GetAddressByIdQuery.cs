@@ -5,7 +5,7 @@ namespace Management.Partners.Application.Queries
 {
     public record GetAddressByIdQuery : IdQuery, IRequest<Address>
     {
-        public GetAddressByIdQuery(string id)
+        public GetAddressByIdQuery(Guid id)
         {
             Id = id;
         }

@@ -22,7 +22,10 @@ namespace Management.Partners.Infrastructure
         {
             optionsBuilder
                 .EnableSensitiveDataLogging()
-                .UseSqlServer(_connectionString);
+                .UseSqlServer(_connectionString, builder => 
+                { 
+                    builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+                });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -5,7 +5,7 @@ namespace Management.Partners.Application.Commands
 {
     public record UpdatePartnerCommand : IRequest<Partner>
     {
-        public string Id { get; init; }
+        public Guid Id { get; init; }
 
         public string Name { get; init; }
 
