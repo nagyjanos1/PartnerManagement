@@ -1,7 +1,6 @@
-﻿namespace Management.Partners.Domain.Base
+﻿namespace Management.Partners.Domain.Base;
+
+public record BaseModel
 {
-    public record BaseModel
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

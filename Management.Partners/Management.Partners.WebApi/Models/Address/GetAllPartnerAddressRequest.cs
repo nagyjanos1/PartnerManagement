@@ -1,7 +1,6 @@
-﻿namespace Management.Partners.WebApi.Models.Address
+﻿namespace Management.Partners.WebApi.Models.Address;
+
+public record GetAllPartnerAddressRequest : GetAllRequest
 {
-    public record GetAllPartnerAddressRequest : GetAllRequest
-    {
-        public Guid PartnerId { get; init; }
-    }
+    public Guid PartnerId { get; init; }
 }

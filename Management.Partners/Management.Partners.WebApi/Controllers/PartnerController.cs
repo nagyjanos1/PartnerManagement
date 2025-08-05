@@ -1,101 +1,101 @@
-﻿using Management.Partners.Application.Commands;
-using Management.Partners.Application.Queries;
+﻿using Management.Partners.Application.Queries;
 using Management.Partners.Domain.Partners;
 using Management.Partners.WebApi.Models;
 using Management.Partners.WebApi.Models.Partner;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 
-namespace Management.Partners.WebApi.Controllers
+namespace Management.Partners.WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class PartnerController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PartnerController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public PartnerController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public PartnerController(IMediator mediator)
+    [HttpGet("All")]
+    public async Task<IActionResult> GetAllByFiltersAsync([FromQuery] GetAllRequest getAllRequest)
+    {
+        var query = new GetAllPartnersQuery
         {
-            _mediator = mediator;
+            Skip = getAllRequest.Skip,
+            Take = getAllRequest.Take,
+            OrderBy = getAllRequest.OrderBy,
+            IsDescending = getAllRequest.IsDescending
+        };
+
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+    {
+        var query = new GetPartnerByIdQuery(id);
+
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddAsync([FromBody] AddPartnerRequest request)
+    {
+        if (ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAllByFiltersAsync([FromQuery] GetAllRequest getAllRequest)
+        var command = request.GetCommand();
+
+        var result = await _mediator.Send(command);
+        if (result == Partner.None)
         {
-            var query = new GetAllPartnersQuery
-            {
-                Skip = getAllRequest.Skip,
-                Take = getAllRequest.Take,
-                OrderBy = getAllRequest.OrderBy,
-                IsDescending = getAllRequest.IsDescending
-            };
-
-            var result = await _mediator.Send(query);
-
-            return Ok(result);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+        return Ok(new { result.Id });
+    }
+
+    [HttpPut()]
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdatePartnerRequest request)
+    {
+        if (ModelState.IsValid)
         {
-            var query = new GetPartnerByIdQuery(id);
-
-            var result = await _mediator.Send(query);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody] AddPartnerRequest request)
+        var command = request.GetCommand();
+
+        var result = await _mediator.Send(command);
+        if (result == Partner.None)
         {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var command = request.GetCommand();
-
-            var result = await _mediator.Send(command);
-            if (result == Partner.None)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok(new { result.Id });
+            return NotFound();
         }
 
-        [HttpPut()]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdatePartnerRequest request)
+        return NoContent();
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteAsync([FromBody] DeletePartnerRequest request)
+    {
+        if (ModelState.IsValid)
         {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var command = request.GetCommand();
-
-            var result = await _mediator.Send(command);
-            if (result == Partner.None)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
+            return BadRequest(ModelState);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync([FromBody] DeletePartnerRequest request)
-        {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var command = request.GetCommand();
 
-            var command = request.GetCommand();
+        var result = await _mediator.Send(command);
 
-            var result = await _mediator.Send(command);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

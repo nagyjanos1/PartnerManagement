@@ -1,7 +1,6 @@
-﻿namespace Management.Partners.Domain.Base
-{
-    internal interface IValueObject
-    {
+﻿namespace Management.Partners.Domain.Base;
 
-    }
+internal interface IValueObject
+{
+
 }

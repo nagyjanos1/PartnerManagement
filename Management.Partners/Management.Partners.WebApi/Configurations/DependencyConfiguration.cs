@@ -4,38 +4,37 @@ using Management.Partners.Infrastructure.Configurations;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Management.Partners.WebApi.Configurations
+namespace Management.Partners.WebApi.Configurations;
+
+public static class DependencyConfiguration
 {
-    public static class DependencyConfiguration
+    public static void RegisterDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void RegisterDependencies(this IServiceCollection services, IConfiguration configuration)
+        services.AddMediatR(typeof(AddPartnerCommand).GetTypeInfo().Assembly);
+
+        services.Configure<DbConnectionConfiguration>(configuration.GetSection(DbConnectionConfiguration.SectionName));
+
+        services.AddOptions<DbConnectionConfiguration>();
+
+        services.RegisterInfrastructureDependencies();
+    }
+      
+    public static IHost MigrateDatabase<T>(this IHost webHost) where T : DbContext
+    {
+        using (var scope = webHost.Services.CreateScope())
         {
-            services.AddMediatR(typeof(AddPartnerCommand).GetTypeInfo().Assembly);
-
-            services.Configure<DbConnectionConfiguration>(configuration.GetSection(DbConnectionConfiguration.SectionName));
-
-            services.AddOptions<DbConnectionConfiguration>();
-
-            services.RegisterInfrastructureDependencies();
-        }
-          
-        public static IHost MigrateDatabase<T>(this IHost webHost) where T : DbContext
-        {
-            using (var scope = webHost.Services.CreateScope())
+            var services = scope.ServiceProvider;
+            try
             {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var db = services.GetRequiredService<T>();
-                    db.Database.Migrate();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while migrating the database.");
-                }
+                var db = services.GetRequiredService<T>();
+                db.Database.Migrate();
             }
-            return webHost;
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred while migrating the database.");
+            }
         }
+        return webHost;
     }
 }

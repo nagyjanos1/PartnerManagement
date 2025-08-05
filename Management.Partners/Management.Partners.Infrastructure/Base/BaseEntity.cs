@@ -1,7 +1,6 @@
-﻿namespace Management.Partners.Infrastructure.Base
+﻿namespace Management.Partners.Infrastructure.Base;
+
+internal class BaseEntity
 {
-    internal class BaseEntity
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

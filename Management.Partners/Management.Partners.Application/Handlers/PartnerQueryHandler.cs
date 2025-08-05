@@ -4,35 +4,34 @@ using Management.Partners.Domain.Partners;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Management.Partners.Application.Handlers
+namespace Management.Partners.Application.Handlers;
+
+internal class PartnerQueryHandler :
+    IRequestHandler<GetPartnerByIdQuery, Partner>,
+    IRequestHandler<GetAllPartnersQuery, IReadOnlyCollection<Partner>>
 {
-    internal class PartnerQueryHandler :
-        IRequestHandler<GetPartnerByIdQuery, Partner>,
-        IRequestHandler<GetAllPartnersQuery, IReadOnlyCollection<Partner>>
+    private readonly IUnitOfWork _unitOfWork;
+
+    public PartnerQueryHandler(IUnitOfWork unitOfWork, ILogger<PartnerQueryHandler> logger)
     {
-        private readonly IUnitOfWork _unitOfWork;
+        _unitOfWork = unitOfWork;
+    }
 
-        public PartnerQueryHandler(IUnitOfWork unitOfWork, ILogger<PartnerQueryHandler> logger)
-        {
-            _unitOfWork = unitOfWork;
-        }
+    public async Task<Partner> Handle(GetPartnerByIdQuery request, CancellationToken cancellationToken)
+    {
+        var repository = _unitOfWork.GetRepository<Partner>();
 
-        public async Task<Partner> Handle(GetPartnerByIdQuery request, CancellationToken cancellationToken)
-        {
-            var repository = _unitOfWork.GetRepository<Partner>();
+        var partner = await repository.GetAsync(x => x.Id == request.Id).ConfigureAwait(false);
 
-            var partner = await repository.GetAsync(x => x.Id == request.Id).ConfigureAwait(false);
+        return partner;
+    }
 
-            return partner;
-        }
+    public async Task<IReadOnlyCollection<Partner>> Handle(GetAllPartnersQuery request, CancellationToken cancellationToken)
+    {
+        var repository = _unitOfWork.GetRepository<Partner>();
 
-        public async Task<IReadOnlyCollection<Partner>> Handle(GetAllPartnersQuery request, CancellationToken cancellationToken)
-        {
-            var repository = _unitOfWork.GetRepository<Partner>();
+        var partners = await repository.GetAllAsync(request.OrderByExpr, request.IsDescending, request.Skip, request.Take).ConfigureAwait(false);
 
-            var partners = await repository.GetAllAsync(request.OrderByExpr, request.IsDescending, request.Skip, request.Take).ConfigureAwait(false);
-
-            return partners.ToList();
-        }
+        return partners.ToList();
     }
 }

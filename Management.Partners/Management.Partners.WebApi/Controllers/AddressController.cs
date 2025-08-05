@@ -3,89 +3,88 @@ using Management.Partners.WebApi.Models.Address;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Management.Addresss.WebApi.Controllers
+namespace Management.Partners.WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AddressController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AddressController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public AddressController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public AddressController(IMediator mediator)
+    [HttpGet("All")]
+    public async Task<IActionResult> GetAllByFiltersAsync([FromQuery] GetAllPartnerAddressRequest getAllRequest)
+    {
+        var query = new GetAllPartnerAddressesQuery
         {
-            _mediator = mediator;
+            PartnerId = getAllRequest.PartnerId.ToString(),
+            Skip = getAllRequest.Skip,
+            Take = getAllRequest.Take,
+            OrderBy = getAllRequest.OrderBy,
+            IsDescending = getAllRequest.IsDescending
+        };
+
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+    {
+        var query = new GetAddressByIdQuery(id);
+
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddAsync([FromBody] AddAddressRequest request)
+    {
+        if (ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAllByFiltersAsync([FromQuery] GetAllPartnerAddressRequest getAllRequest)
+        var command = request.GetCommand();
+
+        var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateAddressRequest request)
+    {
+        if (ModelState.IsValid)
         {
-            var query = new GetAllPartnerAddressesQuery
-            {
-                PartnerId = getAllRequest.PartnerId.ToString(),
-                Skip = getAllRequest.Skip,
-                Take = getAllRequest.Take,
-                OrderBy = getAllRequest.OrderBy,
-                IsDescending = getAllRequest.IsDescending
-            };
-
-            var result = await _mediator.Send(query);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+        var command = request.GetCommand();
+
+        var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteAddressRequest request)
+    {
+        if (ModelState.IsValid)
         {
-            var query = new GetAddressByIdQuery(id);
-
-            var result = await _mediator.Send(query);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody] AddAddressRequest request)
-        {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var command = request.GetCommand();
 
-            var command = request.GetCommand();
+        var result = await _mediator.Send(command);
 
-            var result = await _mediator.Send(command);
-
-            return Ok(result);
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdateAddressRequest request)
-        {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var command = request.GetCommand();
-
-            var result = await _mediator.Send(command);
-
-            return Ok(result);
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync([FromBody] DeleteAddressRequest request)
-        {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var command = request.GetCommand();
-
-            var result = await _mediator.Send(command);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

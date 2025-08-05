@@ -1,7 +1,6 @@
-﻿namespace Management.Partners.Domain.Interfaces
-{
-    public interface IAggregateRoot
-    {
+﻿namespace Management.Partners.Domain.Base;
 
-    }
+public interface IAggregateRoot
+{
+
 }
