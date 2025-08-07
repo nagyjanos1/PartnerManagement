@@ -33,7 +33,7 @@ public record Contract : BaseModel, IAggregateRoot
 
     public bool CanModify { get { return Status is ContractStatus.New or ContractStatus.Audited; } }
 
-    public ContractStatus Status { get; init; }
+    public ContractStatus Status { get; init; } = ContractStatus.New;
 
     public required DateOnly StartDate { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
@@ -52,8 +52,7 @@ public record Contract : BaseModel, IAggregateRoot
     public IReadOnlyCollection<ContractHistory> Histories { get; init; } = [];
 
     private Contract()
-    {
-        Status = ContractStatus.New;
+    {        
     }
 
     public static Contract Create(string subject, DateOnly startDate)
@@ -104,7 +103,7 @@ public record Contract : BaseModel, IAggregateRoot
         };
     }
 
-    public Contract AddDescription(string newDescription)
+    public Contract WithDescription(string newDescription)
     {
         var historized = AddHistory(nameof(Description), Description, newDescription);
         return historized with { Description = newDescription };

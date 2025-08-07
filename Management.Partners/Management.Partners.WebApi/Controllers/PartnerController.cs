@@ -1,10 +1,8 @@
-﻿using Management.Partners.Application.Queries;
-using Management.Partners.Domain.Partners;
-using Management.Partners.WebApi.Models;
-using Management.Partners.WebApi.Models.Partner;
-
+﻿using Management.Partners.Application.Partners.Dtos;
+using Management.Partners.Application.Partners.Queries;
+using Management.Partners.WebApi.Requests;
+using Management.Partners.WebApi.Requests.Partner;
 using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace Management.Partners.WebApi.Controllers;
@@ -42,6 +40,8 @@ public class PartnerController : ControllerBase
         var query = new GetPartnerByIdQuery(id);
 
         var result = await _mediator.Send(query);
+        if (result == PartnerDto.None)
+            return NotFound();
 
         return Ok(result);
     }
@@ -49,7 +49,7 @@ public class PartnerController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromBody] AddPartnerRequest request)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -57,18 +57,17 @@ public class PartnerController : ControllerBase
         var command = request.GetCommand();
 
         var result = await _mediator.Send(command);
-        if (result == Partner.None)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
 
-        return Ok(new { result.Id });
+        return CreatedAtAction(
+            nameof(GetByIdAsync),
+            new { id = result.Id },
+            result);
     }
 
-    [HttpPut()]
+    [HttpPut]
     public async Task<IActionResult> UpdateAsync([FromBody] UpdatePartnerRequest request)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -76,26 +75,24 @@ public class PartnerController : ControllerBase
         var command = request.GetCommand();
 
         var result = await _mediator.Send(command);
-        if (result == Partner.None)
-        {
+        if (result == PartnerDto.None)
             return NotFound();
-        }
 
-        return NoContent();
+        return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteAsync([FromBody] DeletePartnerRequest request)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
         var command = request.GetCommand();
 
-        var result = await _mediator.Send(command);
+        _ = await _mediator.Send(command);
 
-        return Ok(result);
+        return NoContent();
     }
 }

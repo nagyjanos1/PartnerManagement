@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Management.Partners.Application.Commands;
+using Management.Partners.Application.Partners.Commands;
 using Management.Partners.Infrastructure.Configurations;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
